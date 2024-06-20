@@ -61,8 +61,11 @@ Le projet doit refléter votre maîtrise de la plateforme .NET Core. Votre thèm
 
 
 ### Installation du projet:
-- `git clone`
-- Changer  “Server” et “Database” dans `appsettings.json`
-- Outils > Gestionnaire de package NuGet > Console de gestionnaire de package
-  - Add-Migration InitialCreate
-  - Update-Database
+* `git clone`
+* Changer  “Server” et “Database” dans `appsettings.json`
+* Outils > Gestionnaire de package NuGet > Console de gestionnaire de package
+    * Add-Migration InitialCreate
+    * Update-Database
+
+### MCD Initial de l'application
+![Alt text](MCD.png?raw=true "MCD")

@@ -1,6 +1,14 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using FoodOrderingApp.Data;
+using Microsoft.AspNetCore.Identity;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FoodOrderingAppContext") ?? throw new InvalidOperationException("Connection string 'FoodOrderingAppContext' not found.")));
+
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -18,6 +26,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
