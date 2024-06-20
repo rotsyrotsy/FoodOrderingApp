@@ -60,9 +60,9 @@ Le projet doit refléter votre maîtrise de la plateforme .NET Core. Votre thèm
 - ajout multiple de plats à partir d'un fichier CSV
 
 
-Pour lancer:
-git clone
-Changer  “Server” et “Database” dans appsettings.json
-Outils > Gestionnaire de package NuGet > Console de gestionnaire de package
-Add-Migration InitialCreate
-Update-Database
+### Installation du projet:
+- `git clone`
+- Changer  “Server” et “Database” dans `appsettings.json`
+- Outils > Gestionnaire de package NuGet > Console de gestionnaire de package
+  - Add-Migration InitialCreate
+  - Update-Database
