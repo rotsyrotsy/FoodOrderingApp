@@ -22,4 +22,17 @@ namespace FoodOrderingApp.Models
         [DataType(DataType.PhoneNumber)]
         public string? Phone { get; set; }
     }
+    public class RegisterViewModel
+    {
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+    }
+
+    public class LoginViewModel
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
 }

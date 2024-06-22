@@ -11,6 +11,19 @@ builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddControllersWithViews();
+// Add ProductRepository to the dependency injection container
+builder.Services.AddTransient<DishRepository>();
+builder.Services.AddTransient<UserRepository>();
+
+builder.Services.AddSession(options =>
+{
+    // Set a short timeout for easy testing.
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Adjust as needed
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // make the session cookie essential
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,11 +37,15 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -18,6 +18,7 @@ namespace FoodOrderingApp.Models
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
+        public string CategoryName { get; set; }
         public virtual Category Category { get; set; }
         [Required]
         public Boolean IsAvailable { get; set; }

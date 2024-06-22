@@ -1,0 +1,79 @@
+﻿@model IEnumerable<FoodOrderingApp.Models.Dish>
+
+@{
+    int pageNumber = ViewBag.PageNumber;
+    int pageSize = ViewBag.PageSize;
+    int totalItems = ViewBag.TotalItems;
+    int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+    string searchTerm = ViewBag.SearchTerm;
+    int? categoryId = ViewBag.CategoryId;
+}
+<h2>Dishes</h2>
+
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="searchTerm">Search by Dish Name</label>
+        <input type="text" name="searchTerm" id="searchTerm" value="@searchTerm" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="categoryId">Filter by Category</label>
+        <select name="categoryId" id="categoryId" class="form-control">
+            <option value="">All Categories</option>
+            <option value="1" >Starter</option>
+            <option value="2">Main Course</option>
+            <option value="3">Desert</option>
+            <option value="4">Beverage</option>
+
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Is Available</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dish in Model)
+        {
+            <tr>
+                <td>@dish.Id</td>
+                <td>@dish.Name</td>
+                <td>@dish.Description</td>
+                <td>@dish.CategoryName</td>
+                <td>@dish.IsAvailable</td>
+                <td>@dish.Price</td>
+                <td><a href="/Dish/AddToCart?dishId=@dish.Id" type="button" class="btn btn-success btn-sm">Add to Cart</a></td>
+
+            </tr>
+        }
+    </tbody>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { pageNumber = pageNumber - 1, pageSize, searchTerm, categoryId })" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == pageNumber ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = i, pageSize, searchTerm, categoryId })">@i</a>
+                </li>
+            }
+            <li class="page-item @(pageNumber == totalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { pageNumber = pageNumber + 1, pageSize, searchTerm, categoryId })" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</table>

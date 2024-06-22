@@ -1,0 +1,30 @@
+﻿ @model IEnumerable<FoodOrderingApp.Models.Basket>
+@{
+    decimal totalPrice = ViewBag.TotalPrice;
+}
+<a class="btn btn-success" href="/Dish" role="button"> << Return to Dish List</a>
+<a class="btn btn-primary" href="/Order/confirm" role="button">Confirm Order</a>
+<a class="btn btn-danger" href="/Order/cancel" role="button">Cancel Order</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Dish Name</th>
+            <th>Quantity</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var basket in Model)
+        {
+            <tr>
+                <td>@basket.Dish.Name</td>
+                <td>@basket.Quantity</td>
+                <td>@basket.Dish.CategoryName</td>
+                <td>@basket.Dish.Price</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p> Total Order Amount : @totalPrice</p>
