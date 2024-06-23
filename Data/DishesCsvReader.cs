@@ -1,7 +1,6 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using FoodOrderingApp.Models;
-using Microsoft.Extensions.Primitives;
 using System.Globalization;
 
 namespace FoodOrderingApp.Data
@@ -33,24 +32,15 @@ namespace FoodOrderingApp.Data
                 while (csv.Read())
                 {
                     var category = _context.Category.Where(c=>c.Name == csv.GetField<string>("Category")).FirstOrDefault();
-
                     var dish = new Dish
                     {
                         Name = csv.GetField<string>("Name"),
                         Description = csv.GetField<string>("Description"),
+                        Price = csv.GetField<decimal>("Price"),
                         CategoryId = category.Id
                     };
-                    if (decimal.TryParse(csv.GetField<string>("Price"), out decimal parsedPrice))
-                    {
-                        dish.Price = parsedPrice;
-                    }
-                    else
-                    {
-                        dish.Price = 0;
-                    }
                     dishes.Add(dish);
                 }
-                //dishes = csv.GetRecords<Dish>().ToList();
             }
 
             return dishes;
