@@ -2,14 +2,28 @@
 using Microsoft.Extensions.DependencyInjection;
 using FoodOrderingApp.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FoodOrderingAppContext") ?? throw new InvalidOperationException("Connection string 'FoodOrderingAppContext' not found.")));
 
-builder.Services.AddRazorPages();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+builder.Services.AddAuthorization();
+
+builder.Services.AddRazorPages(
+    options =>
+    {
+        options.Conventions.AuthorizeAreaFolder("Categories","/");
+        options.Conventions.AuthorizeAreaFolder("Dishes", "/");
+        options.Conventions.AuthorizeAreaFolder("Orders", "/");
+    }
+    );
 
 builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);

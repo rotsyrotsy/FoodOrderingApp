@@ -1,0 +1,71 @@
+﻿@page
+@model RegisterModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</head>
+<body class="text-center">
+    <main class="form-signin">
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    <h1 class="h3 mb-3 fw-bold">Create a restaurant account</h1>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    @if (Model.SuccessMessage != null)
+                    {
+                        <div class="text-success">@Model.SuccessMessage</div>
+                    }
+                    <div class="form-floating">
+                        <input asp-for="User.Restaurant.Name" class="form-control" />
+                        <label asp-for="User.Restaurant.Name"></label>
+                        <span asp-validation-for="User.Restaurant.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="User.Restaurant.Address" class="form-control" />
+                        <label asp-for="User.Restaurant.Address"></label>
+                        <span asp-validation-for="User.Restaurant.Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="User.Email" class="form-control" />
+                        <label asp-for="User.Email"></label>
+                        <span asp-validation-for="User.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="User.Password" class="form-control" />
+                        <label asp-for="User.Password"></label>
+                        <span asp-validation-for="User.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input asp-for="User.Phone" class="form-control" />
+                        <label asp-for="User.Phone"></label>
+                        <span asp-validation-for="User.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating">
+                        <input name="confirmPassword" class="form-control" type="password" placeholder="Password" />
+                        <label>Confirm Password</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+
+                </form>
+
+                <a asp-page="./Login">I already have an account.</a>
+
+            </div>
+        </div>
+
+    </main>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>
