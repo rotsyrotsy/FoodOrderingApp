@@ -10,19 +10,31 @@
 <h4>Dish</h4>
 <hr />
 <div class="row">
+    @if (Model.ErrorMessage != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class="control-label">Upload CSV to insert multiple dishes</label>
+                <input asp-for="Upload" class="form-control" type="file" accept=".csv" />
+                <span asp-validation-for="Upload" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" asp-page-handler="FormUpload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
     <div class="col-md-4">
         <form method="post">
-            @if (Model.ErrorMessage != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @Model.ErrorMessage
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
             <partial name="~/Pages/Shared/EditorTemplates/Dish.cshtml" model="@Model.Dish" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" asp-page-handler="FormDishes" class="btn btn-primary" />
             </div>
         </form>
     </div>

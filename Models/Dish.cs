@@ -13,16 +13,15 @@ namespace FoodOrderingApp.Models
         public string Description { get; set; }
         [Range(1, int.MaxValue)]
         [DataType(DataType.Currency)]
-        [Column(TypeName ="decimal(20,2)")]
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
         [NotMapped]
         public string? CategoryName { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
-        public Boolean IsAvailable { get; set; }
+        public Boolean IsAvailable { get; set; } = true;
         [DataType(DataType.DateTime)]
-        public DateTime DateCreation { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
         [DataType(DataType.DateTime)]
         public DateTime DateUpdate { get; set; } = DateTime.Now;
 
