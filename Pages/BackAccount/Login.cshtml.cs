@@ -8,7 +8,7 @@ using System.Security.Claims;
 using FoodOrderingApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace FoodOrderingApp.Pages.Account
+namespace FoodOrderingApp.Pages.BackAccount
 {
     public class LoginModel : PageModel
     {

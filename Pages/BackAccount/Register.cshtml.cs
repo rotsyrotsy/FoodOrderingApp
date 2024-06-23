@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using FoodOrderingApp.Data;
 using FoodOrderingApp.Models;
 
-namespace FoodOrderingApp.Pages.Account
+namespace FoodOrderingApp.Pages.BackAccount
 {
     public class RegisterModel : PageModel
     {
-        private readonly FoodOrderingApp.Data.FoodOrderingAppContext _context;
+        private readonly FoodOrderingAppContext _context;
 
-        public RegisterModel(FoodOrderingApp.Data.FoodOrderingAppContext context)
+        public RegisterModel(FoodOrderingAppContext context)
         {
             _context = context;
         }
@@ -59,7 +59,7 @@ namespace FoodOrderingApp.Pages.Account
                 {
                     ModelState.AddModelError(string.Empty, "Password and confirm password do not match.");
                 }
-                
+
             }
             catch (Exception ex)
             {

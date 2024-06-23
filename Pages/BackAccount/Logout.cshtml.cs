@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FoodOrderingApp.Pages.Account
+namespace FoodOrderingApp.Pages.BackAccount
 {
     public class LogoutModel : PageModel
     {

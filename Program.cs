@@ -13,7 +13,12 @@ builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/BackAccount/Login";
+                    options.LogoutPath = "/BackAccount/Logout";
+                });
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddRazorPages(
