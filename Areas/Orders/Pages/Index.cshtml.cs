@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FoodOrderingApp.Data;
 using FoodOrderingApp.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace FoodOrderingApp.Areas.Orders.Pages
 {
@@ -20,11 +21,17 @@ namespace FoodOrderingApp.Areas.Orders.Pages
         }
 
         public IList<Order> Order { get;set; } = default!;
+        public IEnumerable<OrderState> OrderStates { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(OrderState? stateFilter = null)
         {
+
             Order = await _context.Order
+                .Where(o => o.state == stateFilter)
                 .Include(o => o.User).ToListAsync();
+            OrderStates = Enum.GetValues(typeof(OrderState)).Cast<OrderState>();
+            ViewData["stateFilter"] = stateFilter.GetValueOrDefault().ToString();
+
         }
     }
 }
