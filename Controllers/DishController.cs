@@ -43,6 +43,7 @@ namespace FoodOrderingApp.Controllers
             Dish dish = await _dishRepo.GetDishByIdAsync(dishId);
 
             Basket bask = new Basket();
+            bask.DishId = dish.Id;
             bask.Dish = dish;
             bask.Quantity = 1;
 

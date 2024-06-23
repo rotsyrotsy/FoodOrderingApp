@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using FoodOrderingApp.Data;
 using Microsoft.AspNetCore.Identity;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using FoodOrderingApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +15,21 @@ builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews();
+
+var context = new CustomAssemblyLoadContext();
+var libPath = Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox", "libwkhtmltox.dll");
+context.LoadUnmanagedLibrary(libPath);
+
+// Register DinkToPdf
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
 // Add ProductRepository to the dependency injection container
 builder.Services.AddTransient<DishRepository>();
 builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<OrderRepository>();
+builder.Services.AddTransient<BasketRepository>();
+builder.Services.AddTransient<PdfService>();
+builder.Services.AddTransient<RazorViewToStringRenderer>();
 
 builder.Services.AddSession(options =>
 {
