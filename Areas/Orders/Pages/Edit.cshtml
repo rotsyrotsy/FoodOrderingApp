@@ -1,0 +1,66 @@
+﻿@page
+@model FoodOrderingApp.Areas.Orders.Pages.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+
+}
+
+<h1>Process Order</h1>
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (Model.ErrorMessage != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @Model.ErrorMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Order.Id" />
+            <div class="form-group">
+                <label class="control-label">User </label>
+                <span class="form-text">
+                    @Model.Order.User.Email
+                </span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Date" class="control-label"></label>
+                <span class="form-text">
+                    @Model.Order.Date
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">State</label>
+                <select asp-for="Order.state" class="form-control">
+                    @foreach (var state in ViewBag.OrderStates)
+                    {
+                        <option value="@state">@state</option>
+                    }
+                </select>
+                <span asp-validation-for="Order.state" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label"> Delivery address</label>
+                <span class="form-text">
+                    @Model.Order.Address
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
