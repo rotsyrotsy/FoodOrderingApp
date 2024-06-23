@@ -1,0 +1,31 @@
+﻿ @model IEnumerable<FoodOrderingApp.Models.Order>
+@{
+    
+}
+<a class="btn btn-success" href="/Dish" role="button"> << Return to Dish List</a>
+<h2>Order History</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order Id</th>
+            <th>Date</th>
+            <th>State</th>
+            <th>Address</th>
+            <th>Action</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Date</td>
+                <td>@order.state</td>
+                <td>@order.Address</td>
+                <td><a type="button" href="/Order/Details?orderId=@order.Id" class="btn btn-warning btn-sm">Check Detail</a></td>
+
+            </tr>
+        }
+    </tbody>
+</table>
