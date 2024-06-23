@@ -28,12 +28,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Dish[0].IsAvailable)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dish[0].DateCreation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dish[0].DateUpdate)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -54,12 +48,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsAvailable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateUpdate)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

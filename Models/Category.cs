@@ -7,6 +7,6 @@ namespace FoodOrderingApp.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<Dish> Dishes { get; set; }
+        public ICollection<Dish>? Dishes { get; set; }
     }
 }

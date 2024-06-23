@@ -29,7 +29,7 @@ namespace FoodOrderingApp.Areas.Categories.Pages
                 return NotFound();
             }
 
-            var category = await _context.Category.FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Category.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
 
             if (category == null)
             {

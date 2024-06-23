@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FoodOrderingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using FoodOrderingApp.Data;
-using FoodOrderingApp.Models;
+using NuGet.Packaging.Signing;
 
 namespace FoodOrderingApp.Areas.Dishes.Pages
 {
@@ -26,20 +22,34 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
         }
 
         [BindProperty]
-        public Dish Dish { get; set; } = default!;
+        public Dish Dish { get; set; } = new();
+        public string ErrorMessage { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var newItem = new Dish();
+
+            if (await TryUpdateModelAsync(newItem, "Dish"))
             {
-                return Page();
+                newItem.DateCreation = DateTime.Now;
+                _context.Dish.Add(newItem);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
             }
-
-            _context.Dish.Add(Dish);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            var validationErrors = ModelState.Values.Where(E => E.Errors.Count > 0)
+            .SelectMany(E => E.Errors)
+            .Select(E => E.ErrorMessage)
+            .ToList();
+            if (validationErrors.Count > 0)
+            {
+                foreach (var error in validationErrors)
+                {
+                    ErrorMessage += $"{error}\n";
+                }
+            }
+            return Page();
         }
     }
 }

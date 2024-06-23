@@ -11,6 +11,8 @@ builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
 
 builder.Services.AddRazorPages();
 
+builder.Services.AddControllers(
+    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddControllersWithViews();
 // Add ProductRepository to the dependency injection container
 builder.Services.AddTransient<DishRepository>();

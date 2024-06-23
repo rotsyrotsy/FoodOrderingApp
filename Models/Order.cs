@@ -15,6 +15,6 @@ namespace FoodOrderingApp.Models
         [Required]
         public int state { get; set; }
         public string? Address { get; set; }
-        public ICollection<Basket> Baskets { get; set; }
+        public ICollection<Basket>? Baskets { get; set; }
     }
 }

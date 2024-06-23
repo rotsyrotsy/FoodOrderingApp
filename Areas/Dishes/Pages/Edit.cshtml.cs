@@ -22,6 +22,7 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
 
         [BindProperty]
         public Dish Dish { get; set; } = default!;
+        public string ErrorMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,7 +31,7 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
                 return NotFound();
             }
 
-            var dish =  await _context.Dish.FirstOrDefaultAsync(m => m.Id == id);
+            var dish =  await _context.Dish.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
             if (dish == null)
             {
                 return NotFound();
@@ -42,37 +43,32 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            if (!ModelState.IsValid)
+            var item = await _context.Dish.FirstOrDefaultAsync(m => m.Id == id);
+            if (item == null)
             {
-                return Page();
+                return NotFound();
             }
-
-            _context.Attach(Dish).State = EntityState.Modified;
-
-            try
+            if (await TryUpdateModelAsync(item, "Dish"))
             {
+                item.DateUpdate = DateTime.Now;
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
+            var validationErrors = ModelState.Values.Where(E => E.Errors.Count > 0)
+            .SelectMany(E => E.Errors)
+            .Select(E => E.ErrorMessage)
+            .ToList();
+            if (validationErrors.Count > 0)
             {
-                if (!DishExists(Dish.Id))
+                foreach (var error in validationErrors)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    ErrorMessage += $"{error}\n";
                 }
             }
-
-            return RedirectToPage("./Index");
+            return Page();
         }
 
-        private bool DishExists(int id)
-        {
-            return _context.Dish.Any(e => e.Id == id);
-        }
     }
 }
