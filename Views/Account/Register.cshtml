@@ -23,5 +23,9 @@
         <input asp-for="ConfirmPassword" type="password" class="form-control" />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-dismissible fade show mt-2"></div>
+
+    <button type="submit" class="btn btn-primary mt-2">Register</button>
+    <p><a class="nav-link" href="./Login">Already have an account?</a></p>
+
 </form>
