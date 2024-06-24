@@ -21,5 +21,7 @@ namespace FoodOrderingApp.Models
         public String DishName { get; set; }
         public decimal Price { get; set; }
         public String CategoryName { get; set; }
+        public decimal BasketPrice { get; set; }
+
     }
 }

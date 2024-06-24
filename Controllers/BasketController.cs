@@ -21,7 +21,7 @@ namespace FoodOrderingApp.Controllers
             decimal total = 0;
             foreach (var basket in baskets)
             {
-                total += basket.Dish.Price;
+                total += basket.BasketPrice;
             }
 
             ViewBag.TotalPrice = total;

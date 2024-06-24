@@ -54,7 +54,43 @@ public class OrderRepository
 
         return orders;
     }
+    public async Task<Order> GetOrderByIdAsync(int orderId)
+    {
+        Order ord = null;
+        using (var connection = new SqlConnection(_connectionString))
+        {
+            await connection.OpenAsync();
 
+            var query = @"
+            SELECT o.Id, o.UserId, o.Date, o.state, o.Address
+            FROM [Order] o
+            WHERE o.Id = @orderId
+            ORDER BY o.Id DESC";
+
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@orderId", orderId);
+
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        ord = new Order
+                        {
+                            Id = reader.GetInt32(0),
+                            UserId = reader.GetInt32(1),
+                            Date = reader.GetDateTime(2),
+                            state = reader.GetInt32(3),
+                            Address = reader.GetString(4)
+
+                        };
+                    }
+                }
+            }
+        }
+
+        return ord;
+    }
 
     public async Task<int> AddOrderAsync(Order order)
     {

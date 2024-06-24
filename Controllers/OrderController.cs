@@ -60,7 +60,9 @@ namespace FoodOrderingApp.Controllers
                 
             }
 
-            return RedirectToAction("History", "Order");
+            HttpContext.Session.Remove("Basket");
+
+            return RedirectToAction("Index", "Order");
 
 
 
@@ -96,7 +98,8 @@ namespace FoodOrderingApp.Controllers
             decimal total = 0;
             foreach (var basket in baskets)
             {
-                total += basket.Price;
+                basket.BasketPrice = basket.Quantity * basket.Price;
+                total += basket.Quantity * basket.Price;
             }
 
             ViewBag.TotalPrice = total;
@@ -120,60 +123,50 @@ namespace FoodOrderingApp.Controllers
             }
 
             var baskets = await _basketRepository.GetBasketsByOrderIdAsync(orderId);
+
+            Order order = await _orderRepository.GetOrderByIdAsync(orderId);
+
             decimal total = 0;
             foreach (var basket in baskets)
             {
-                total += basket.Price;
+                basket.BasketPrice = basket.Quantity * basket.Price;
+                total += basket.Quantity * basket.Price;
             }
 
             var model = new ExportInvoiceModel
             {
                 TotalPrice = total,
                 OrderId = orderId,
-                Baskets = baskets
+                Baskets = baskets,
+                User = user,
+                Date = order.Date
             };
 
             string htmlContent = await _razorViewToStringRenderer.RenderViewToStringAsync("/Views/Pdf/ExportInvoiceToPdf.cshtml", model);
             var pdfBytes = _pdfService.CreatePdf(htmlContent);
 
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string fileName = $"ExportInvoice_{timestamp}.pdf";
 
-            return File(pdfBytes, "application/pdf", "Export.pdf");
+            return File(pdfBytes, "application/pdf", fileName);
 
         }
-
-        private async Task<string> RenderViewAsync(string viewName, object model)
+        public async Task<IActionResult> Cancel()
         {
-            var viewEngine = HttpContext.RequestServices.GetService(typeof(IRazorViewEngine)) as IRazorViewEngine;
-            var tempDataProvider = HttpContext.RequestServices.GetService(typeof(ITempDataProvider)) as ITempDataProvider;
-            var actionContext = new ActionContext(HttpContext, RouteData, ControllerContext.ActionDescriptor);
+            // Example: Verify if session user is present
+            var user = HttpContext.Session.GetObject<User>("User");
 
-            using (var sw = new StringWriter())
+            if (user == null)
             {
-                var viewResult = viewEngine.FindView(actionContext, viewName, false);
-
-                if (viewResult.View == null)
-                {
-                    throw new ArgumentNullException($"The view '{viewName}' was not found.");
-                }
-
-                var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-                {
-                    Model = model
-                };
-
-                var viewContext = new ViewContext(
-                    actionContext,
-                    viewResult.View,
-                    viewDictionary,
-                    new TempDataDictionary(actionContext.HttpContext, tempDataProvider),
-                    sw,
-                    new HtmlHelperOptions()
-                );
-
-                await viewResult.View.RenderAsync(viewContext);
-                return sw.ToString();
+                // If user is not logged in, redirect to login page
+                return RedirectToAction("Login", "Account");
             }
+
+            HttpContext.Session.Remove("Basket");
+            return RedirectToAction("Index", "Dish");
+
         }
+
 
     }
 }
