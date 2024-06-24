@@ -41,11 +41,10 @@ namespace FoodOrderingApp.Pages.BackAccount
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("/Dishes");
 
             if (ModelState.IsValid)
             {
-
                 var verificationResult = await _context.User.AnyAsync(u => u.Email == Email && u.Password == Password);
 
                 if (verificationResult)
