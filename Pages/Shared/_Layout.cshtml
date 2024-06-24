@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using FoodOrderingApp.Session
+@using FoodOrderingApp.Models
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -35,16 +38,23 @@
                             <a class="nav-link text-dark" href="/Order">Order History</a>
                         </li>
                     </ul>
-                    <div>
+                   @*  <div>
                         <a class="nav-link text-dark" href="/Account/Login">Customer area</a>
-                    </div>
-                    <div>
+                    </div> *@
+                   @*  <div>
                         <a class="nav-link text-dark" asp-area="" asp-page="/BackAccount/Login">Restaurant area</a>
+                    </div> *@
+                </div>
+                @{
+                    var user = HttpContextAccessor.HttpContext.Session.GetObject<User>("User");
+                }
+                @if (user != null)
+                {
+                    <div>
+                        <a class="nav-link text-dark" href="/Account/Logout">Sign Out - @user.Email</a>
                     </div>
-                </div>
-                <div>
-                    <a class="nav-link text-dark" href="/Account/Logout">Sign Out</a>
-                </div>
+                }
+
             </div>
         </nav>
     </header>

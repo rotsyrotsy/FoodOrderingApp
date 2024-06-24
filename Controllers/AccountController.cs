@@ -49,6 +49,10 @@ namespace MvcAdoExample.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            var user = HttpContext.Session.GetObject<User>("User");
+            if (user != null){
+                return RedirectToAction("Index", "Order");
+            }
             return View();
         }
 

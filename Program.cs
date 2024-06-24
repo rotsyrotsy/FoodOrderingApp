@@ -36,6 +36,8 @@ builder.Services.AddRazorPages(
 builder.Services.AddControllers(
     options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+
 
 var context = new CustomAssemblyLoadContext();
 var libPath = Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox", "libwkhtmltox.dll");
