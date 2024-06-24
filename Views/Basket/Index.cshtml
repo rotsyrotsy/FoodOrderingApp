@@ -1,41 +1,67 @@
-﻿ @model IEnumerable<FoodOrderingApp.Models.Basket>
+﻿@model IEnumerable<FoodOrderingApp.Models.Basket>
 @{
     decimal totalPrice = ViewBag.TotalPrice;
 }
-<a class="btn btn-success" href="/Dish" role="button"> << Return to Dish List</a>
 
-<!-- Address input form -->
-<form method="get" class="d-inline" action="Order/Confirm">
-    <div class="form-group d-inline">
-        <label for="address" class="sr-only">Address</label>
-        <input type="text" class="form-control d-inline w-auto" id="address" name="address" placeholder="Enter address" required>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <a class="btn btn-success mb-3" href="/Dish" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M5.854 12.354a.5.5 0 0 1 0-.708L2.207 8l3.647-3.646a.5.5 0 1 1 .708.708L3.207 8l3.354 3.354a.5.5 0 0 1-.708.708z" />
+                    <path fill-rule="evenodd" d="M3.5 8a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1h-8a.5.5 0 0 1-.5-.5z" />
+                </svg> Return to Dish List
+            </a>
+
+            <!-- Address input form -->
+            <form method="get" class="d-inline" action="Order/Confirm">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter delivery address" aria-label="Enter delivery address" required>
+                    <button class="btn btn-primary" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
+                            <path d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm3.97 5.97a.75.75 0 0 1 1.06 1.06l-5 5a.75.75 0 0 1-1.06 0l-2.5-2.5a.75.75 0 1 1 1.06-1.06L7 9.44l4.97-4.97z" />
+                        </svg> Confirm Order
+                    </button>
+                </div>
+            </form>
+
+            <a class="btn btn-danger mb-3 ms-2" href="/Order/Cancel" role="button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zM4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 1 1 .708.708L8.707 8l2.647 2.646a.5.5 0 1 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 1 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg> Cancel Order
+            </a>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Dish Name</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var basket in Model)
+                    {
+                        <tr>
+                            <td>@basket.Dish.Name</td>
+                            <td>@basket.Quantity</td>
+                            <td>@basket.Dish.Price.ToString("C")</td>
+                            <td>@basket.Dish.CategoryName</td>
+                            <td>@(basket.Quantity * basket.Dish.Price)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <p class="card-text">Total Order Amount: @totalPrice.ToString("C")</p>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Confirm Order</button>
-</form>
-
-<a class="btn btn-danger" href="/Order/cancel" role="button">Cancel Order</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Dish Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Category</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var basket in Model)
-        {
-            <tr>
-                <td>@basket.Dish.Name</td>
-                <td>@basket.Quantity</td>
-                <td>@basket.Dish.Price</td>
-                <td>@basket.Dish.CategoryName</td>
-                <td>@basket.BasketPrice</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<p> Total Order Amount : @totalPrice</p>
+</div>

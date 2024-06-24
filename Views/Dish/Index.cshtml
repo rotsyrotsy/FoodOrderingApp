@@ -8,65 +8,78 @@
     string searchTerm = ViewBag.SearchTerm;
     int? categoryId = ViewBag.CategoryId;
 }
-<h2>Dishes</h2>
+<h2 class="mb-4 text-center fancy-font">Discover Our Delicious Dishes: A Feast for Your Senses!</h2>
 
-<form method="get" asp-action="Index">
-    <div class="form-group">
-        <label for="searchTerm">Search by Dish Name</label>
-        <input type="text" name="searchTerm" id="searchTerm" value="@searchTerm" class="form-control" />
+
+<div class="container mt-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-3 mb-3">
+            <img src="https://images.unsplash.com/photo-1574016156263-7fef3854b4e0?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded" alt="Left Image">
+        </div>
+        <div class="col-md-6">
+            <form method="get" asp-action="Index">
+                <div class="mb-3">
+                    <label for="searchTerm" class="form-label">Search by Dish Name</label>
+                    <input type="text" name="searchTerm" id="searchTerm" value="@searchTerm" class="form-control" placeholder="Chicken, Salad, Pina Colada, ..." />
+                </div>
+                <div class="mb-3">
+                    <label for="categoryId" class="form-label">Filter by Category</label>
+                    <select name="categoryId" id="categoryId" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="1">Starter</option>
+                        <option value="2">Main Course</option>
+                        <option value="3">Dessert</option>
+                        <option value="4">Beverage</option>
+                    </select>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3 mb-3">
+            <img src="https://images.unsplash.com/photo-1588675646184-f5b0b0b0b2de?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="img-fluid rounded" alt="Right Image">
+        </div>
     </div>
-    <div class="form-group">
-        <label for="categoryId">Filter by Category</label>
-        <select name="categoryId" id="categoryId" class="form-control">
-            <option value="">All Categories</option>
-            <option value="1" >Starter</option>
-            <option value="2">Main Course</option>
-            <option value="3">Desert</option>
-            <option value="4">Beverage</option>
 
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Category</th>
-           @*  <th>Is Available</th> *@
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var dish in Model)
-        {
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
             <tr>
-                <td>@dish.Id</td>
-                <td>@dish.Name</td>
-                <td>@dish.Description</td>
-                <td>@dish.CategoryName</td>
-                @* <td>@dish.IsAvailable</td> *@
-                <td>@dish.Price</td>
-                <td>
-                    @if (dish.IsAvailable)
-                    {
-                        <a href="/Dish/AddToCart?dishId=@dish.Id" type="button" class="btn btn-success btn-sm">Add to Cart</a>
-                    }
-                    else
-                    {
-                        <button type="button" class="btn btn-danger btn-sm" disabled>Not Available</button>
-                    }
-                </td>
-
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model)
+            {
+                <tr>
+                    <td>@dish.Id</td>
+                    <td>@dish.Name</td>
+                    <td>@dish.Description</td>
+                    <td>@dish.CategoryName</td>
+                    <td>@dish.Price.ToString("C")</td>
+                    <td>
+                        @if (dish.IsAvailable)
+                        {
+                            <a href="/Dish/AddToCart?dishId=@dish.Id" class="btn btn-success btn-sm">Add to Cart</a>
+                        }
+                        else
+                        {
+                            <button class="btn btn-danger btn-sm" disabled>Not Available</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
     <nav aria-label="Page navigation">
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
             <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
                 <a class="page-link" href="@Url.Action("Index", new { pageNumber = pageNumber - 1, pageSize, searchTerm, categoryId })" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
@@ -85,4 +98,4 @@
             </li>
         </ul>
     </nav>
-</table>
+</div>
