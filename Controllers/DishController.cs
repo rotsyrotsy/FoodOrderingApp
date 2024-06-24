@@ -4,6 +4,7 @@ using FoodOrderingApp.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using FoodOrderingApp.Session;
+using NuGet.ContentModel;
 
 namespace FoodOrderingApp.Controllers
 {
@@ -42,12 +43,29 @@ namespace FoodOrderingApp.Controllers
 
             Dish dish = await _dishRepo.GetDishByIdAsync(dishId);
 
-            Basket bask = new Basket();
-            bask.Dish = dish;
-            bask.Quantity = 1;
 
             List<Basket> baskets = HttpContext.Session.GetObject<List<Basket>>("Basket") ?? new List<Basket>();
-            baskets.Add(bask);
+            // Verify if Dish is already inserted into the Basket and Increment quantity if that : 
+            Boolean alreadyIn = false;
+            foreach (var basket in baskets)
+            {
+                if(basket.DishId == dishId)
+                {
+                    basket.Quantity += 1;
+                    basket.BasketPrice = basket.Dish.Price * basket.Quantity;
+                    alreadyIn = true;
+                }
+            }
+            if (!alreadyIn)
+            {
+                Basket bask = new Basket();
+                bask.DishId = dish.Id;
+                bask.Dish = dish;
+                bask.Quantity = 1;
+                bask.BasketPrice = bask.Dish.Price;
+                baskets.Add(bask);
+            }
+           
             HttpContext.Session.SetObject("Basket", baskets);
 
             // Redirect to a page confirming the addition to cart or another appropriate action

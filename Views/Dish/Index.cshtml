@@ -36,7 +36,7 @@
             <th>Name</th>
             <th>Description</th>
             <th>Category</th>
-            <th>Is Available</th>
+           @*  <th>Is Available</th> *@
             <th>Price</th>
             <th>Action</th>
         </tr>
@@ -49,9 +49,18 @@
                 <td>@dish.Name</td>
                 <td>@dish.Description</td>
                 <td>@dish.CategoryName</td>
-                <td>@dish.IsAvailable</td>
+                @* <td>@dish.IsAvailable</td> *@
                 <td>@dish.Price</td>
-                <td><a href="/Dish/AddToCart?dishId=@dish.Id" type="button" class="btn btn-success btn-sm">Add to Cart</a></td>
+                <td>
+                    @if (dish.IsAvailable)
+                    {
+                        <a href="/Dish/AddToCart?dishId=@dish.Id" type="button" class="btn btn-success btn-sm">Add to Cart</a>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-danger btn-sm" disabled>Not Available</button>
+                    }
+                </td>
 
             </tr>
         }

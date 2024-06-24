@@ -17,5 +17,11 @@ namespace FoodOrderingApp.Models
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative number.")]
         public int Quantity { get; set; } = 0;
+
+        public String DishName { get; set; }
+        public decimal Price { get; set; }
+        public String CategoryName { get; set; }
+        public decimal BasketPrice { get; set; }
+
     }
 }

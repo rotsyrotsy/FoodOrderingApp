@@ -52,6 +52,15 @@ namespace MvcAdoExample.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("User");
+            HttpContext.Session.Remove("Basket");
+
+            return RedirectToAction("Login", "Account");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {

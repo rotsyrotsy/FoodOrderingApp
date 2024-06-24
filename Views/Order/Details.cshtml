@@ -1,0 +1,32 @@
+﻿ @model IEnumerable<FoodOrderingApp.Models.Basket>
+@{
+    decimal totalPrice = ViewBag.TotalPrice;
+    int orderId = ViewBag.orderId;
+
+}
+<a class="btn btn-success" href="/Order/Index" role="button"> << Return to Order List</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Dish Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Category</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var basket in Model)
+        {
+            <tr>
+                <td>@basket.DishName</td>
+                <td>@basket.Quantity</td>
+                <td>@basket.Price</td>
+                <td>@basket.CategoryName</td>
+                <td>@basket.BasketPrice</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<p> Total Order Amount : @totalPrice</p>
+<a class="btn btn-info" href="/Order/Export?orderId=@orderId" role="button">Export to PDF</a>

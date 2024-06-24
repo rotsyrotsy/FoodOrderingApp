@@ -3,13 +3,23 @@
     decimal totalPrice = ViewBag.TotalPrice;
 }
 <a class="btn btn-success" href="/Dish" role="button"> << Return to Dish List</a>
-<a class="btn btn-primary" href="/Order/confirm" role="button">Confirm Order</a>
+
+<!-- Address input form -->
+<form method="get" class="d-inline" action="Order/Confirm">
+    <div class="form-group d-inline">
+        <label for="address" class="sr-only">Address</label>
+        <input type="text" class="form-control d-inline w-auto" id="address" name="address" placeholder="Enter address" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Confirm Order</button>
+</form>
+
 <a class="btn btn-danger" href="/Order/cancel" role="button">Cancel Order</a>
 <table class="table">
     <thead>
         <tr>
             <th>Dish Name</th>
             <th>Quantity</th>
+            <th>Unit Price</th>
             <th>Category</th>
             <th>Price</th>
         </tr>
@@ -20,8 +30,9 @@
             <tr>
                 <td>@basket.Dish.Name</td>
                 <td>@basket.Quantity</td>
-                <td>@basket.Dish.CategoryName</td>
                 <td>@basket.Dish.Price</td>
+                <td>@basket.Dish.CategoryName</td>
+                <td>@basket.BasketPrice</td>
             </tr>
         }
     </tbody>
