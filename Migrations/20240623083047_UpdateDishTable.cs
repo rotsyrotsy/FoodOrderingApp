@@ -10,7 +10,7 @@ namespace FoodOrderingApp.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
+            migrationBuilder.AlterColumn<bool>(
             name: "isAvailable",
             table: "Dish",
             nullable: false,

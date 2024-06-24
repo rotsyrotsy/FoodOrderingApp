@@ -25,5 +25,20 @@ namespace FoodOrderingApp.Models
         public OrderState state { get; set; } = OrderState.Placed;
         public string? Address { get; set; }
         public ICollection<Basket>? Baskets { get; set; }
+
+        public static OrderState getCorrespondingState(int state)
+        {
+            switch (state)
+            {
+                case 0:return OrderState.Placed;
+                case 1: return OrderState.Confirmed;
+                case 2: return OrderState.Preparing;
+                case 3: return OrderState.OutForDelivery;
+                case 4: return OrderState.Delivered;
+                case 5: return OrderState.Cancelled;
+                default: return OrderState.Placed;
+            }
+           
+        }
     }
 }

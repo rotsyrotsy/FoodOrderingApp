@@ -10,9 +10,9 @@ namespace FoodOrderingApp.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "CategoryName",
-                table: "Dish");
+            //migrationBuilder.DropColumn(
+            //    name: "CategoryName",
+            //    table: "Dish");
 
             migrationBuilder.AlterColumn<decimal>(
                 name: "Price",

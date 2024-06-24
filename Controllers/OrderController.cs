@@ -46,7 +46,7 @@ namespace FoodOrderingApp.Controllers
 
             Order order = new Order();
             order.Address = address;
-            order.state = 1;
+            order.state = OrderState.Placed;
             order.Date = DateTime.Now;
             order.UserId = user.Id;
             order.User = user;

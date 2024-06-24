@@ -71,13 +71,13 @@ namespace MvcAdoExample.Controllers
                 {
                     // Authenticate user (this is just an example, implement proper authentication)
                     HttpContext.Session.SetObject<User>("User", user);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Dish");
                 }
 
                 ModelState.AddModelError("", "Invalid login attempt.");
             }
 
-            return RedirectToAction("Dish", "Index");
+            return RedirectToAction("Index", "Dish");
 
         }
     }

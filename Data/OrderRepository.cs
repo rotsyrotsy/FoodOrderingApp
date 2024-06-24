@@ -43,7 +43,7 @@ public class OrderRepository
                             Id = reader.GetInt32(0),
                             UserId = reader.GetInt32(1),
                             Date = reader.GetDateTime(2),
-                            state = reader.GetInt32(3),
+                            state = Order.getCorrespondingState(reader.GetInt32(3)),
                             Address = reader.GetString(4)
                             
                         });
@@ -80,7 +80,7 @@ public class OrderRepository
                             Id = reader.GetInt32(0),
                             UserId = reader.GetInt32(1),
                             Date = reader.GetDateTime(2),
-                            state = reader.GetInt32(3),
+                            state = Order.getCorrespondingState(reader.GetInt32(3)),
                             Address = reader.GetString(4)
 
                         };
