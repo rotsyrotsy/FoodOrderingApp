@@ -8,25 +8,23 @@ namespace FoodOrderingApp.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
         [DataType(DataType.Text)]
-        public string Description { get; set; }
         [Required]
+        public string Description { get; set; }
         [Range(1, int.MaxValue)]
         [DataType(DataType.Currency)]
-        [Column(TypeName ="decimal(3,2)")]
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
+        [NotMapped]
+        public string? CategoryName { get; set; }
         [ForeignKey("CategoryId")]
-        public string CategoryName { get; set; }
         public virtual Category Category { get; set; }
-        [Required]
-        public Boolean IsAvailable { get; set; }
+        public Boolean IsAvailable { get; set; } = true;
         [DataType(DataType.DateTime)]
-        public DateTime DateCreation { get; set; }
+        public DateTime DateCreation { get; set; } = DateTime.Now;
         [DataType(DataType.DateTime)]
-        public DateTime DateUpdate { get; set; }
+        public DateTime DateUpdate { get; set; } = DateTime.Now;
 
-        public ICollection<Basket> Baskets { get; set; }
+        public ICollection<Basket>? Baskets { get; set; }
     }
 }

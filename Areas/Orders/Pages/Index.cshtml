@@ -2,14 +2,25 @@
 @model FoodOrderingApp.Areas.Orders.Pages.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List";
+    string? stateFilter = ViewBag.stateFilter;
 }
+<h1>Order List</h1>
 
-<h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form method="get">
+    <div class="form-group">
+        <label for="stateFilter">Filter by state</label>
+        <select name="stateFilter" id="stateFilter" class="form-control">
+            @foreach (var state in Model.OrderStates)
+            {
+                <option value="@state">@state</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+
+</form>
 <table class="table">
     <thead>
         <tr>
@@ -23,7 +34,7 @@
                 @Html.DisplayNameFor(model => model.Order[0].state)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Order[0].Address)
+                Delivery address
             </th>
             <th></th>
         </tr>
@@ -44,9 +55,7 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Process Order</a>
             </td>
         </tr>
 }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using FoodOrderingApp.Data;
 using FoodOrderingApp.Models;
 
-namespace FoodOrderingApp.Areas.Dishes.Pages
+namespace FoodOrderingApp.Areas.Orders.Pages
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
         }
 
         [BindProperty]
-        public Dish Dish { get; set; } = default!;
+        public Order Order { get; set; }
         public string ErrorMessage { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -31,13 +31,15 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
                 return NotFound();
             }
 
-            var dish =  await _context.Dish.AsNoTracking().FirstOrDefaultAsync(m => m.Id == id);
-            if (dish == null)
+            var order =  await _context.Order
+                .Include(s => s.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
-            Dish = dish;
-           ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "Id", "Name");
+            Order = order;
+            ViewData["OrderStates"] = Enum.GetValues(typeof(OrderState)).Cast<OrderState>();
             return Page();
         }
 
@@ -45,29 +47,28 @@ namespace FoodOrderingApp.Areas.Dishes.Pages
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var item = await _context.Dish.FirstOrDefaultAsync(m => m.Id == id);
+            var item = await _context.Order.FirstOrDefaultAsync(m => m.Id == id);
             if (item == null)
             {
                 return NotFound();
             }
-            if (await TryUpdateModelAsync(item, "Dish"))
+            try
             {
-                item.DateUpdate = DateTime.Now;
+                item.state = Order.state;
+                Order = item;
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Index");
             }
-            var validationErrors = ModelState.Values.Where(E => E.Errors.Count > 0)
-            .SelectMany(E => E.Errors)
-            .Select(E => E.ErrorMessage)
-            .ToList();
-            if (validationErrors.Count > 0)
+            catch (Exception ex)
             {
-                foreach (var error in validationErrors)
-                {
-                    ErrorMessage += $"{error}\n";
-                }
+                ErrorMessage = ex.Message;
             }
             return Page();
+        }
+
+        private bool OrderExists(int id)
+        {
+            return _context.Order.Any(e => e.Id == id);
         }
 
     }

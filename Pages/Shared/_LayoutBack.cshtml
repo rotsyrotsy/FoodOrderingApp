@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FoodOrderingApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/FoodOrderingApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-md-3 col-lg-2 bg-light border-end box-shadow mb-3">
+                <div class="d-flex flex-column align-items-center align-items-md-start p-3 bg-light">
+                    <a asp-area="" asp-page="/Index" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                        <span class="fs-5 fw-bold" style="color:rgb(168, 126, 0) !important;">Restaurant Account</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-auto w-100">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dishes-collapse" aria-expanded="false">
+                                Dishes
+                            </button>
+                            <div class="collapse" id="dishes-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a class="dropdown-item" asp-area="Dishes" asp-page="/Index">List</a></li>
+                                    <li><a class="dropdown-item" asp-area="Dishes" asp-page="/Create">Create</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#categories-collapse" aria-expanded="false">
+                                Categories
+                            </button>
+                            <div class="collapse" id="categories-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a class="dropdown-item" asp-area="Categories" asp-page="/Index">List</a></li>
+                                    <li><a class="dropdown-item" asp-area="Categories" asp-page="/Create">Create</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                                Orders
+                            </button>
+                            <div class="collapse" id="orders-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a class="dropdown-item" asp-area="Orders" asp-page="/Index">List</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="border-top my-3"></li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/BackAccount/Logout">Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="col-12 col-md-9 col-lg-10 py-3">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - FoodOrderingApp - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

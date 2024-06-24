@@ -2,18 +2,39 @@
 using Microsoft.Extensions.DependencyInjection;
 using FoodOrderingApp.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using FoodOrderingApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddDbContext<FoodOrderingAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("FoodOrderingAppContext") ?? throw new InvalidOperationException("Connection string 'FoodOrderingAppContext' not found.")));
 
-builder.Services.AddRazorPages();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/BackAccount/Login";
+                    options.LogoutPath = "/BackAccount/Logout";
+                });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddRazorPages(
+    options =>
+    {
+        options.Conventions.AuthorizeAreaFolder("Categories","/");
+        options.Conventions.AuthorizeAreaFolder("Dishes", "/");
+        options.Conventions.AuthorizeAreaFolder("Orders", "/");
+    }
+    );
+
+builder.Services.AddControllers(
+    options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.AddControllersWithViews();
 
 var context = new CustomAssemblyLoadContext();
@@ -48,7 +69,7 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseRequestLocalization("en-MG");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

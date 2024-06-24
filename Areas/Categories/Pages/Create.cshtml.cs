@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FoodOrderingApp.Data;
+using FoodOrderingApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using FoodOrderingApp.Data;
-using FoodOrderingApp.Models;
 
 namespace FoodOrderingApp.Areas.Categories.Pages
 {
     public class CreateModel : PageModel
     {
-        private readonly FoodOrderingApp.Data.FoodOrderingAppContext _context;
+        private readonly FoodOrderingAppContext _context;
 
-        public CreateModel(FoodOrderingApp.Data.FoodOrderingAppContext context)
+        public CreateModel(FoodOrderingAppContext context)
         {
             _context = context;
         }
@@ -25,20 +20,33 @@ namespace FoodOrderingApp.Areas.Categories.Pages
         }
 
         [BindProperty]
-        public Category Category { get; set; } = default!;
+        public Category Category { get; set; } = new();
+        public string ErrorMessage { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var item = new Category();
+            if (await TryUpdateModelAsync(item, "Category", f => f.Name))
             {
-                return Page();
+                _context.Category.Add(item);
+                await _context.SaveChangesAsync();
+
+                return RedirectToPage("./Index");
+            }
+            var validationErrors = ModelState.Values.Where(E => E.Errors.Count > 0)
+            .SelectMany(E => E.Errors)
+            .Select(E => E.ErrorMessage)
+            .ToList();
+            if (validationErrors.Count > 0)
+            {
+                foreach (var error in validationErrors)
+                {
+                    ErrorMessage += $"{error}\n";
+                }
             }
 
-            _context.Category.Add(Category);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

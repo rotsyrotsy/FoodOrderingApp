@@ -4,6 +4,7 @@ using FoodOrderingApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodOrderingApp.Migrations
 {
     [DbContext(typeof(FoodOrderingAppContext))]
-    partial class FoodOrderingAppContextModelSnapshot : ModelSnapshot
+    [Migration("20240623052317_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,6 +79,10 @@ namespace FoodOrderingApp.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DateCreation")
                         .HasColumnType("datetime2");
 
@@ -94,7 +101,7 @@ namespace FoodOrderingApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(20,2)");
+                        .HasColumnType("decimal(3,2)");
 
                     b.HasKey("Id");
 
@@ -284,7 +291,8 @@ namespace FoodOrderingApp.Migrations
 
             modelBuilder.Entity("FoodOrderingApp.Models.Restaurant", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FoodOrderingApp.Models.Role", b =>

@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodOrderingApp.Migrations
 {
     [DbContext(typeof(FoodOrderingAppContext))]
-    [Migration("20240621172621_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240623063818_AddOrderState")]
+    partial class AddOrderState
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -97,7 +97,7 @@ namespace FoodOrderingApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(3,2)");
+                        .HasColumnType("decimal(20,2)");
 
                     b.HasKey("Id");
 
@@ -287,8 +287,7 @@ namespace FoodOrderingApp.Migrations
 
             modelBuilder.Entity("FoodOrderingApp.Models.Restaurant", b =>
                 {
-                    b.Navigation("User")
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FoodOrderingApp.Models.Role", b =>

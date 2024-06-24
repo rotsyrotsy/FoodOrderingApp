@@ -63,6 +63,7 @@ namespace FoodOrderingApp.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(3,2)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
+                    CategoryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     DateCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdate = table.Column<DateTime>(type: "datetime2", nullable: false)

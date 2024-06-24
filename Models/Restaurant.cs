@@ -12,6 +12,6 @@ namespace FoodOrderingApp.Models
         public string? Email { get; set; }
         [DataType(DataType.PhoneNumber)]
         public string? Phone { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }
