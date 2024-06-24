@@ -3,6 +3,7 @@ using FoodOrderingApp.Data;
 using FoodOrderingApp.Models;
 using FoodOrderingApp.Session;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace MvcAdoExample.Controllers
@@ -25,22 +26,29 @@ namespace MvcAdoExample.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
-                var user = new User
+                if (model.ConfirmPassword == model.Password)
                 {
-                    Email = model.Email,
-                    Phone = model.Phone,
-                    Password = model.Password, // TODO Note: Hash passwords in a real app!
-                };
+                    var user = new User
+                    {
+                        Email = model.Email,
+                        Phone = model.Phone,
+                        Password = model.Password, // TODO Note: Hash passwords in a real app!
+                    };
 
-                var result = await _userRepository.RegisterUserAsync(user);
-                if (result)
-                {
-                    return RedirectToAction("Login");
+                    var result = await _userRepository.RegisterUserAsync(user);
+                    if (result)
+                    {
+                        return RedirectToAction("Login");
+                    }
+                    ModelState.AddModelError("", "Failed to register user.");
                 }
-
-                ModelState.AddModelError("", "Failed to register user.");
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Password and confirm password do not match.");
+                }
             }
 
             return View(model);
@@ -73,11 +81,10 @@ namespace MvcAdoExample.Controllers
                     HttpContext.Session.SetObject<User>("User", user);
                     return RedirectToAction("Index", "Dish");
                 }
-
-                ModelState.AddModelError("", "Invalid login attempt.");
             }
 
-            return RedirectToAction("Index", "Dish");
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View();
 
         }
     }
