@@ -46,6 +46,7 @@ builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new 
 
 // Add ProductRepository to the dependency injection container
 builder.Services.AddTransient<DishRepository>();
+builder.Services.AddTransient<CategoryRepository>();
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<OrderRepository>();
 builder.Services.AddTransient<BasketRepository>();
